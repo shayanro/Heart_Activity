@@ -11,7 +11,6 @@ index = 0
 file = 'database.csv'
 with open(file) as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
-    # time_stamps = []
     heart_rates = []
     imus = []
     for row in readCSV:
@@ -36,7 +35,6 @@ imu = normalize(imu, axis=1)
 imu = np.reshape(imu, -1)
 index = index // 2
 
-
 T = int(0.1 * 60) # 5 minutes
 length = index - 3 * T * 50
 print('length is: ', length)
@@ -49,7 +47,7 @@ for i in range(length):
     print(i)
     data[i, 0] = heart_rate[i+T]
     data[i, 1] = heart_rate[i]
-    data[i, 2:] = imu[i:3*T*50 + i]
+    data[i, 2:] = imu[i:3*T*50+i]
 
 np.random.shuffle(data)
 
@@ -60,11 +58,3 @@ with open('X.pickle', 'wb') as f:
     pickle.dump(X, f)
 with open('y.pickle', 'wb') as f:
     pickle.dump(y, f)
-
-
-
-
-
-
-
-
