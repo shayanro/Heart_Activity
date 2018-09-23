@@ -25,8 +25,8 @@ with open(file) as csvfile:
         index += 1
 
 # time_stamp = np.asarray(time_stamps)
-heart_rate = np.asarray(heart_rates)
-imu = np.asarray(imus)
+heart_rate = np.asarray(heart_rates, dtype=np.uint8)
+imu = np.asarray(imus, dtype=np.float32)
 print('index is: ', index)
 # time_stamp = np.delete(time_stamp, np.s_[::2])
 heart_rate = np.delete(heart_rate, np.s_[::2])
@@ -35,7 +35,7 @@ imu = normalize(imu, axis=1)
 imu = np.reshape(imu, -1)
 index = index // 2
 
-T = int(0.1 * 60) # 5 minutes
+T = int(5 * 60) # 5 minutes
 length = index - 3 * T * 50
 print('length is: ', length)
 data = np.zeros((length, 3*T*50 + 2))
@@ -43,8 +43,9 @@ X = np.zeros((length, 3*T*50 + 1))
 y = np.zeros((length, 1))
 print(data[1, 2:].shape)
 print(imu[0: 1*3*T*50].shape)
-for i in range(length):
-    print(i)
+for i in range(length/100):
+    os.system('cls')
+    print('progress is: ', (i/length),'%')
     data[i, 0] = heart_rate[i+T]
     data[i, 1] = heart_rate[i]
     data[i, 2:] = imu[i:3*T*50+i]
